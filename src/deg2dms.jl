@@ -1,5 +1,12 @@
 # coded by chatGPT on 2025/09/02
-function deg2dms(deg::Real; sec_digits::Integer=2)
+# """
+#     deg2dms(deg; sec_digits=3)
+# 小数度 `deg` を (度, 分, 秒) に変換します。
+# 符号は「度→分→秒」の順で最初の非ゼロ要素にだけ付与します。
+# `sec_digits` は秒の小数桁数（既定 3）。
+# 戻り値: (Int, Int, Real)
+# """
+function deg2dms(deg::Real; sec_digits::Integer=3)
     # 角度の符号（-0.0 は 0 と同じ扱い）
     sgn = (deg < 0) ? -1 : 1
     adeg = abs(float(deg))
@@ -36,39 +43,25 @@ function deg2dms(deg::Real; sec_digits::Integer=2)
 
     return d, m, s
 end
-# function dms2deg(d, m, s; isg = 1)
-#     if isg == 1
-#         degrees = d + m/60.0 + s/3600.0
-#     else
-#         ad = abs(d)
-#         degrees = - (ad + m/60.0 + s/3600.0)
-#     end
-#     return degrees
-# end
+# """
+#     dms2deg(d, m, s)
+# 度(d), 分(m), 秒(s) から小数度 (Float64) に変換します。
+# - 符号は d, m, s のうち最初に非ゼロとなる値から継承します。
+# - 入力は整数度・整数分・実数秒を想定しています。
+# 戻り値: Float64 （小数度）
+# """
+function dms2deg(d::Real, m::Real, s::Real)
+    # 符号は最初の非ゼロから
+    if d != 0
+        sgn = sign(d)
+    elseif m != 0
+        sgn = sign(m)
+    elseif s != 0
+        sgn = sign(s)
+    else
+        return 0.0
+    end
 
-deg = 0.125
-
-d, m, s = deg2dms(deg)
-@show d, m, s
-
-deg = -0.125
-d, m, s = deg2dms(deg)
-@show d, m, s
-
-# ## Example usage:
-# d = 100
-# m = 30
-# s = 15
-
-# @show dms2deg(d, m, s)
-# deg = dms2deg(d, m, s)
-# @show deg2dms(deg)
-
-# d = -100
-# m = 30
-# s = 15
-
-# @show dms2deg(d, m, s, isg = -1)
-# deg2 = dms2deg(d, m, s)
-# @show deg2dms(deg)
-
+    adeg = abs(float(d)) + abs(float(m))/60 + abs(float(s))/3600
+    return sgn * adeg
+end
