@@ -10,5 +10,6 @@ include("bl2xy.jl")
 include("xy2bl.jl")
 include("deg2dms.jl")
 include("inout.jl")
+include("rotation2d.jl")
 
 end
