@@ -1,11 +1,11 @@
-function xy2bl(x, y, alat0, alng0)
+function xy2bl(x, y, alat0, alng0; a = 6378137.0, F = 298.257222101, m0 = 0.9999)
 # 度からラジアン
     lam0 = deg2rad(alng0)
     phi0 = deg2rad(alat0)
 # 定数の定義
-    a = 6_378_137 # 長半径［m］
-    F = 298.257222101 # 扁平率の逆数
-    m0 = 0.9999 # 中央子午線の縮尺係数
+#     a = 6_378_137 # 長半径［m］
+#     F = 298.257222101 # 扁平率の逆数
+#     m0 = 0.9999 # 中央子午線の縮尺係数
 # 諸量の計算
     n = 1/(2*F-1) # 第3扁平率
     A0 = 1 + (1/4)*n^2 + (1/64)*n^4
@@ -53,11 +53,14 @@ function xy2bl(x, y, alat0, alng0)
     tpsi = (1+n)/(1-n) * tan(chi + sum(delta .* sjchi))
 
     phi = atan((1+n)/(1-n) * tpsi)
+    phi_deg = rad2deg(phi)
     lam = lam0 + atan(sinh(etap) / cos(xip))
-    γ = atan((taup + sigp * tan(xip) * tanh(etap))/(sigp - taup * tan(xip) * tanh(etap)))
+    lam_deg = rad2deg(lam)
+    γ = atan((taup + sigp * tan(xip) * tanh(etap)), (sigp - taup * tan(xip) * tanh(etap)))
+    γ_deg = rad2deg(γ)
     m = (Abar/a) * sqrt((cos(xip)^2 + sinh(etap)^2)/(sigp^2 + taup^2) * (1 + tpsi^2))
 
-    return rad2deg(phi), rad2deg(lam), rad2deg(γ), m
+    return phi_deg, lam_deg, γ_deg, m
 end
 
 ## Test cases

@@ -1,13 +1,13 @@
-function bl2xy(alat, alng, alat0, alng0)
+function bl2xy(alat, alng, alat0, alng0; a = 6378137.0, F = 298.257222101, m0 = 0.9999)
 # 度からラジアン
     phi = deg2rad(alat)
     lam = deg2rad(alng)
     lam0 = deg2rad(alng0)
     phi0 = deg2rad(alat0)
 # 定数の定義
-    a = 6_378_137 # 長半径［m］
-    F = 298.257222101 # 扁平率の逆数
-    m0 = 0.9999 # 中央子午線の縮尺係数
+# a = 6_378_137 # 長半径［m］
+# F = 298.257222101 # 扁平率の逆数
+# m0 = 0.9999 # 中央子午線の縮尺係数
 # 諸量の計算
     n = 1/(2*F-1) # 第3扁平率
     t = sinh(atanh(sin(phi)) - 2*sqrt(n)/(1+n)*atanh(2*sqrt(n)/(1+n)*sin(phi))) 
@@ -43,9 +43,10 @@ function bl2xy(alat, alng, alat0, alng0)
     tau = sum(j2 .* alpha .* sjx .* shje)
     x = Abar * (xip + sum(alpha .* sjx .* chje)) - Sphi0
     y = Abar * (etap + sum(alpha .* cjx .* shje))
-    γ = atan((tau*tbar*lamc + sig*t*lams)/(sig*tbar*lamc - tau*t*lams))
+    γ = atan((tau*tbar*lamc + sig*t*lams), (sig*tbar*lamc - tau*t*lams))
+    γ_deg = rad2deg(γ)
     m = (Abar/a) * sqrt((sig^2 + tau^2)/(t^2 + lamc^2)*(1 + ((1-n)/(1+n) * tan(phi))^2))
-    return x, y, rad2deg(γ), m
+    return x, y, γ_deg, m
 end
 
 ## Test cases

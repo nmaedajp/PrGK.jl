@@ -1,12 +1,12 @@
 # coded by chatGPT on 2025/09/02
 # """
-#     deg2dms(deg; sec_digits=3)
+#     deg2dms(deg; sec_digits=2)
 # 小数度 `deg` を (度, 分, 秒) に変換します。
 # 符号は「度→分→秒」の順で最初の非ゼロ要素にだけ付与します。
-# `sec_digits` は秒の小数桁数（既定 3）。
+# `sec_digits` は秒の小数桁数（既定 2）。
 # 戻り値: (Int, Int, Real)
 # """
-function deg2dms(deg::Real; sec_digits::Integer=3)
+function deg2dms(deg::Real; sec_digits::Integer=2)
     # 角度の符号（-0.0 は 0 と同じ扱い）
     sgn = (deg < 0) ? -1 : 1
     adeg = abs(float(deg))

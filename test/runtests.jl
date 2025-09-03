@@ -2,10 +2,6 @@ using PrGK
 using Test
 # using Random
 
-@testset "PrGK.jl" begin
-    # Write your tests here.
-end
-
 @testset "PrGK deg↔dms roundtrip" begin
     # 代表値テスト（sec_digits は往復誤差に効く）
     vals = [
