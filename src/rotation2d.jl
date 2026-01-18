@@ -19,7 +19,7 @@
 # - 受動変換（軸の回転）は能動変換の角度符号が逆になります（`θ_axes = -θ_point`）。
 # """
 function rot2d(x::Real, y::Real, theta::Real;
-                  deg::Bool=true, about::Tuple{<:Real,<:Real}=(0.0, 0.0),
+                  deg::Bool=true, center::Tuple{<:Real,<:Real}=(0.0, 0.0),
                   convention::Symbol=:axes)
 
     θ = deg ? theta * (π/180) : theta
@@ -28,14 +28,14 @@ function rot2d(x::Real, y::Real, theta::Real;
           convention === :point ?  θ :
           throw(ArgumentError("convention must be :axes or :point"))
 
-    cx, cy = about
+    cx, cy = center
     X = x - cx
     Y = y - cy
 
     c = cos(ang); s = sin(ang)
-    xnew =  c*X - s*Y + cx
-    ynew =  s*X + c*Y + cy
-    return (xnew, ynew)
+    xnew =  c*X - s*Y 
+    ynew =  s*X + c*Y 
+    return xnew, ynew
 end
 
 # # 例1: 座標軸を +90° 回転（受動変換）
@@ -49,7 +49,7 @@ end
 # # → (0.0, 1.0) 付近
 
 # # 例3: 原点ではなく (2,3) を中心に点を 30° 回転
-# ex3 = rot2d(4.0, 3.0, 30, deg=true, about=(2.0, 3.0), convention=:point)
+# ex3 = rot2d(4.0, 3.0, 30, deg=true, center=(2.0, 3.0), convention=:point)
 # @show ex3
 # # → (3.732..., 4.0) 付近
 

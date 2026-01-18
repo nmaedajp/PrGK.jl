@@ -1,7 +1,7 @@
 name = "PrGK"
 uuid = "dbf56913-ac29-4ac1-bc4d-2abbd3b744e3"
 authors = ["Naoki Maeda <fnkyksj@gmail.com> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [compat]
 julia = "1.11"

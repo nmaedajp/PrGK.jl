@@ -56,9 +56,10 @@
   * 入力は整数度・整数分・実数秒を想定しています。
   * 戻り値: Float64 （小数度）
 
-### rot2d(x, y, theta; deg=true, about=(0.0, 0.0), convention=:axes)
+### rot2d(x, y, theta; deg=true, center=(0.0, 0.0), convention=:axes)
 * chatGPTによるコード
 * 2次元点 (x, y) の座標を回転変換して返す．
+* center：回転の中心．初期値は (0.0, 0.0)．回転後，center を原点としている．
 * 引数
   * `x::Real`，`y::Real` ： 2次元の点(x, y)．
     * ここでは，通常の数学的座標軸のイメージで記述されている．
@@ -71,7 +72,7 @@
     * `:axes` ：座標軸を θ だけ反時計回りに回す．同一点の新座標を返す．
     * `:point`：点を θ だけ反時計回りに回す．
 * 戻り値
-  * `(xnew, ynew)` のタプル（Float64）
+  * `xnew, ynew` のタプル（Float64）
 * 備考
   * 軸の回転は点の回転と角度符号が逆になる（`θ_axes = -θ_point`）．
 
